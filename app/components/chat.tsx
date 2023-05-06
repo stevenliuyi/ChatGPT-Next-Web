@@ -33,6 +33,8 @@ import {
   useAppConfig,
   ModelConfig,
   DEFAULT_TOPIC,
+  ALL_MODELS,
+  ModalConfigValidator,
 } from "../store";
 
 import {
@@ -694,6 +696,27 @@ export function Chat() {
           setAutoScroll(false);
         }}
       >
+        <div className={styles["chat-body-top"]}>
+          <select
+            className={styles["chat-body-model"] + " clickable"}
+            value={session.mask.modelConfig.model}
+            onChange={(e) => {
+              const mask = { ...session.mask };
+              mask.modelConfig.model = ModalConfigValidator.model(
+                e.currentTarget.value,
+              );
+              chatStore.updateCurrentSession(
+                (session) => (session.mask = mask),
+              );
+            }}
+          >
+            {ALL_MODELS.map((v) => (
+              <option value={v.name} key={v.name} disabled={!v.available}>
+                Model: {v.name.replace("gpt", "GPT").replace("-turbo", "")}
+              </option>
+            ))}
+          </select>
+        </div>
         {messages.map((message, i) => {
           const isUser = message.role === "user";
           const showActions =
