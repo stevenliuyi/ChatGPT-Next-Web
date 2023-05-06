@@ -335,23 +335,6 @@
   padding: 20px;
   padding-bottom: 40px;
   position: relative;
-
-  .chat-body-top {
-    display: flex;
-    justify-content: center;
-
-    .chat-body-model {
-      border-radius: 20px;
-      font-size: 12px;
-      background-color: var(--white);
-      color: var(--black);
-      border: var(--border-in-light);
-      padding: 4px 10px;
-      animation: slide-in ease 0.3s;
-      transition: all ease 0.3s;
-      height: 32px;
-    }
-  }
 }
 
 .chat-body-title {

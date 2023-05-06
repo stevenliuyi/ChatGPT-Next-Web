@@ -339,6 +339,12 @@ export function ChatActions(props: {
   const couldStop = ControllerPool.hasPending();
   const stopAll = () => ControllerPool.stopAll();
 
+  const chatStore = useChatStore();
+  const [session, sessionIndex] = useChatStore((state) => [
+    state.currentSession(),
+    state.currentSessionIndex,
+  ]);
+
   return (
     <div className={chatStyle["chat-input-actions"]}>
       {couldStop && (
@@ -394,6 +400,23 @@ export function ChatActions(props: {
       >
         <MaskIcon />
       </div>
+      <select
+        className={`${chatStyle["chat-input-action"]} clickable`}
+        value={session.mask.modelConfig.model}
+        onChange={(e) => {
+          const mask = { ...session.mask };
+          mask.modelConfig.model = ModalConfigValidator.model(
+            e.currentTarget.value,
+          );
+          chatStore.updateCurrentSession((session) => (session.mask = mask));
+        }}
+      >
+        {ALL_MODELS.map((v) => (
+          <option value={v.name} key={v.name} disabled={!v.available}>
+            Model: {v.name.replace("gpt", "GPT").replace("-turbo", "")}
+          </option>
+        ))}
+      </select>
     </div>
   );
 }
@@ -696,27 +719,6 @@ export function Chat() {
           setAutoScroll(false);
         }}
       >
-        <div className={styles["chat-body-top"]}>
-          <select
-            className={styles["chat-body-model"] + " clickable"}
-            value={session.mask.modelConfig.model}
-            onChange={(e) => {
-              const mask = { ...session.mask };
-              mask.modelConfig.model = ModalConfigValidator.model(
-                e.currentTarget.value,
-              );
-              chatStore.updateCurrentSession(
-                (session) => (session.mask = mask),
-              );
-            }}
-          >
-            {ALL_MODELS.map((v) => (
-              <option value={v.name} key={v.name} disabled={!v.available}>
-                Model: {v.name.replace("gpt", "GPT").replace("-turbo", "")}
-              </option>
-            ))}
-          </select>
-        </div>
         {messages.map((message, i) => {
           const isUser = message.role === "user";
           const showActions =
