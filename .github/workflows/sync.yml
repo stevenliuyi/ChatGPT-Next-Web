@@ -21,15 +21,10 @@ jobs:
 
       # Step 2: merge changes from upstream repo
       - name: Merge Upstream
-        uses: exions/merge-upstream@v1
-        with:
-          upstream: Yidadaa/ChatGPT-Next-Web
-          upstream-branch: main
-          branch: main
-
-      - name: Sync check
-        if: failure()
-        run: |
-          echo "::error::由于权限不足，导致同步失败（这是预期的行为），请前往仓库首页手动执行[Sync fork]。"
-          echo "::error::Due to insufficient permissions, synchronization failed (as expected). Please go to the repository homepage and manually perform [Sync fork]."
-          exit 1
+        uses: dabreadman/sync-upstream-repo@v1.3.0
+        with: 
+          upstream_repo: "https://github.com/Yidadaa/ChatGPT-Next-Web.git"
+          upstream_branch: "main"
+          downstream_branch: "main"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          spawn_logs: "false"
