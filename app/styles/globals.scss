@@ -344,6 +344,10 @@ pre {
   border-radius: 10px;
 }
 
+.hidden {
+  display: none !important;
+}
+
 .one-line {
   white-space: nowrap;
   overflow: hidden;

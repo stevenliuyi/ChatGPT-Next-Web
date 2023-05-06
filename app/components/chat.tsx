@@ -386,7 +386,7 @@ export function ChatActions(props: {
       </div>
 
       <div
-        className={`${chatStyle["chat-input-action"]} clickable`}
+        className={`${chatStyle["chat-input-action"]} clickable hidden`}
         onClick={props.showPromptHints}
       >
         <PromptIcon />
@@ -413,7 +413,7 @@ export function ChatActions(props: {
       >
         {ALL_MODELS.map((v) => (
           <option value={v.name} key={v.name} disabled={!v.available}>
-            Model: {v.name.replace("gpt", "GPT").replace("-turbo", "")}
+            {v.name.replace("gpt", "GPT").replace("-turbo", "")}
           </option>
         ))}
       </select>
