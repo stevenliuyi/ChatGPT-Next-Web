@@ -138,13 +138,15 @@ export function SignInPage(props: {
   const checkAccesCode = () => {
     props.onUpdate();
     accessStore.updateCode(accessCode);
-    requestUsage().then((res) => {
-      if (!res?.used) {
-        setAccessCode("");
-      } else {
-        props.onSuccess();
-      }
-    });
+    requestUsage()
+      .then((res) => {
+        if (!res?.used) {
+          setAccessCode("");
+        } else {
+          props.onSuccess();
+        }
+      })
+      .catch(() => setAccessCode(""));
   };
 
   return (
@@ -168,13 +170,15 @@ export function SignInPage(props: {
 export function Home() {
   const [signedIn, setSignedIn] = useState<boolean | undefined>(undefined);
 
-  requestUsage().then((res) => {
-    if (res?.used) {
-      setSignedIn(true);
-    } else {
-      setSignedIn(false);
-    }
-  });
+  requestUsage()
+    .then((res) => {
+      if (res?.used) {
+        setSignedIn(true);
+      } else {
+        setSignedIn(false);
+      }
+    })
+    .catch(() => setSignedIn(false));
 
   useSwitchTheme();
 
