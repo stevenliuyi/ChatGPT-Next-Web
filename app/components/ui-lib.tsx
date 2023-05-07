@@ -240,6 +240,7 @@ export function PasswordInput(props: HTMLProps<HTMLInputElement>) {
         {...props}
         type={visible ? "text" : "password"}
         className={"password-input"}
+        onKeyDown={props.onKeyDown}
       />
     </div>
   );

@@ -124,6 +124,26 @@
   }
 }
 
+.signin-container {
+  .modal-container {
+    max-width: 500px;
+
+    .modal-header {
+      color: var(--primary);
+    }
+
+    .modal-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+    }
+
+    .modal-close-btn {
+      display: none;
+    }
+  }
+}
+
 .show {
   opacity: 1;
   transition: all ease 0.3s;

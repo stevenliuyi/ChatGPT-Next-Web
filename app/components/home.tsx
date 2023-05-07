@@ -5,6 +5,7 @@ require("../polyfill");
 import { useState, useEffect } from "react";
 
 import styles from "./home.module.scss";
+import uiStyles from "./ui-lib.module.scss";
 
 import BotIcon from "../icons/bot.svg";
 import LoadingIcon from "../icons/three-dots.svg";
@@ -23,6 +24,12 @@ import {
 } from "react-router-dom";
 import { SideBar } from "./sidebar";
 import { useAppConfig } from "../store/config";
+
+import { useAccessStore } from "../store";
+import { Modal, PasswordInput } from "./ui-lib";
+import { IconButton } from "./button";
+import Locale from "../locales";
+import { requestUsage } from "../requests";
 
 export function Loading(props: { noLogo?: boolean }) {
   return (
@@ -122,17 +129,73 @@ function Screen() {
   );
 }
 
+export function SignInPage(props: {
+  onSuccess: () => void;
+  onUpdate: () => void;
+}) {
+  const accessStore = useAccessStore();
+  const [accessCode, setAccessCode] = useState("");
+  const checkAccesCode = () => {
+    props.onUpdate();
+    accessStore.updateCode(accessCode);
+    requestUsage().then((res) => {
+      if (!res?.used) {
+        setAccessCode("");
+      } else {
+        props.onSuccess();
+      }
+    });
+  };
+
+  return (
+    <div className={uiStyles["signin-container"]}>
+      <Modal title="ChatGPT Next">
+        <PasswordInput
+          value={accessCode}
+          type="text"
+          placeholder={Locale.Settings.AccessCode.Placeholder}
+          onChange={(e) => setAccessCode(e.currentTarget.value)}
+          onKeyDown={(e) => {
+            if (e.key == "Enter") checkAccesCode();
+          }}
+        />
+        <IconButton text={"Log In"} onClick={checkAccesCode} />
+      </Modal>
+    </div>
+  );
+}
+
 export function Home() {
+  const [signedIn, setSignedIn] = useState<boolean | undefined>(undefined);
+
+  requestUsage().then((res) => {
+    if (res?.used) {
+      setSignedIn(true);
+    } else {
+      setSignedIn(false);
+    }
+  });
+
   useSwitchTheme();
 
   if (!useHasHydrated()) {
     return <Loading />;
   }
 
+  if (signedIn == undefined) {
+    return <Loading />;
+  }
+
   return (
     <ErrorBoundary>
       <Router>
-        <Screen />
+        {signedIn == true && <Screen />}
+        {signedIn == false && (
+          <SignInPage
+            onSuccess={() => setSignedIn(true)}
+            onUpdate={() => setSignedIn(undefined)}
+          />
+        )}
       </Router>
     </ErrorBoundary>
   );
