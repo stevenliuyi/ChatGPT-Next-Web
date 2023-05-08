@@ -2,13 +2,14 @@
 
 require("../polyfill");
 
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 
 import styles from "./home.module.scss";
 import uiStyles from "./ui-lib.module.scss";
 
 import BotIcon from "../icons/bot.svg";
 import LoadingIcon from "../icons/three-dots.svg";
+import ChatGptIcon from "../icons/chatgpt.svg";
 
 import { getCSSVar, useMobileScreen } from "../utils";
 
@@ -149,10 +150,20 @@ export function SignInPage(props: {
       .catch(() => setAccessCode(""));
   };
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  });
+
   return (
     <div className={uiStyles["signin-container"]}>
+      <div className={uiStyles["signin-logo"] + " no-dark"}>
+        <ChatGptIcon />
+      </div>
       <Modal title="ChatGPT Next">
         <PasswordInput
+          ref={inputRef}
           value={accessCode}
           type="text"
           placeholder={Locale.Settings.AccessCode.Placeholder}

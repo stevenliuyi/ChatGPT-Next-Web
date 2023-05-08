@@ -222,7 +222,14 @@ export function Input(props: InputProps) {
   );
 }
 
-export function PasswordInput(props: HTMLProps<HTMLInputElement>) {
+type PasswordInputProps = HTMLProps<HTMLInputElement> & {
+  ref?: React.ForwardedRef<HTMLInputElement>;
+};
+
+export const PasswordInput = React.forwardRef<
+  HTMLInputElement,
+  PasswordInputProps
+>(function PasswordInputFunc(props, ref) {
   const [visible, setVisible] = useState(false);
 
   function changeVisibility() {
@@ -238,10 +245,10 @@ export function PasswordInput(props: HTMLProps<HTMLInputElement>) {
       />
       <input
         {...props}
+        ref={ref}
         type={visible ? "text" : "password"}
         className={"password-input"}
-        onKeyDown={props.onKeyDown}
       />
     </div>
   );
-}
+});

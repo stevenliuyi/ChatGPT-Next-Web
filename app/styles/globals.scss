@@ -136,7 +136,7 @@ select {
   cursor: pointer;
   background-color: var(--white);
   color: var(--black);
-  text-align: center;
+  text-align-last: center;
 }
 
 label {
@@ -319,6 +319,7 @@ pre {
 
 .password-input-container {
   max-width: 50%;
+  min-width: 220px;
   display: flex;
   justify-content: flex-end;
 
@@ -328,6 +329,12 @@ pre {
 
   .password-input {
     min-width: 80%;
+    font-size: 16px;
+  }
+
+  .password-input:focus {
+    border: 2px solid var(--primary);
+    outline: none;
   }
 }
 

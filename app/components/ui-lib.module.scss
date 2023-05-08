@@ -125,11 +125,20 @@
 }
 
 .signin-container {
+  position: relative;
+
+  .signin-logo {
+    position: absolute;
+    right: 18px;
+    top: 18px;
+  }
+
   .modal-container {
     max-width: 500px;
 
     .modal-header {
       color: var(--primary);
+      border-bottom: none;
     }
 
     .modal-content {
@@ -138,9 +147,20 @@
       justify-content: space-evenly;
     }
 
+    @media only screen and (max-width: 600px) {
+      .modal-content {
+        flex-direction: column;
+      }
+    }
+
     .modal-close-btn {
       display: none;
     }
+
+    .modal-footer {
+      display: none;
+    }
+
   }
 }
 
