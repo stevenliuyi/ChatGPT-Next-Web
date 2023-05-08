@@ -161,7 +161,7 @@ export function SignInPage(props: {
       <div className={uiStyles["signin-logo"] + " no-dark"}>
         <ChatGptIcon />
       </div>
-      <Modal title="ChatGPT Next">
+      <Modal title="ChatGPT">
         <PasswordInput
           ref={inputRef}
           value={accessCode}
