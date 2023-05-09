@@ -30,6 +30,10 @@ jobs:
           git remote add upstream https://github.com/Yidadaa/ChatGPT-Next-Web.git
           git fetch upstream
           git checkout main
-          git merge upstream/main
-          git commit -m "Merged upstream"
-          git push origin HEAD
+          MERGE_RESULT=$(git merge upstream/main)
+          if [[ $MERGE_RESULT == "" ]]; then
+            exit 1
+          elif [[ $MERGE_RESULT != *"Already up to date."* ]]; then
+            git commit -m "Merged upstream"
+            git push origin HEAD
+          fi
