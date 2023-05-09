@@ -15,16 +15,21 @@ jobs:
     if: ${{ github.event.repository.fork }}
 
     steps:
-      # Step 1: run a standard checkout action
-      - name: Checkout target repo
-        uses: actions/checkout@v3
+      # Step 1: clone repository and set committer identity
+      - name: Clone repo
+        run: |
+          git clone https://github.com/stevenliuyi/ChatGPT-Next-Web.git
+          cd ChatGPT-Next-Web
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 
       # Step 2: merge changes from upstream repo
-      - name: Merge Upstream
-        uses: dabreadman/sync-upstream-repo@v1.3.0
-        with: 
-          upstream_repo: "https://github.com/Yidadaa/ChatGPT-Next-Web.git"
-          upstream_branch: "main"
-          downstream_branch: "main"
-          token: ${{ secrets.GITHUB_TOKEN }}
-          spawn_logs: "false"
+      - name: Merge upstream
+        run: |
+          cd ChatGPT-Next-Web
+          git remote add upstream https://github.com/Yidadaa/ChatGPT-Next-Web.git
+          git fetch upstream
+          git checkout main
+          git merge upstream/main
+          git commit -m "Merged upstream"
+          git push origin HEAD
