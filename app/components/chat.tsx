@@ -406,11 +406,14 @@ export function ChatActions(props: {
           chatStore.updateCurrentSession((session) => (session.mask = mask));
         }}
       >
-        {ALL_MODELS.map((v) => (
-          <option value={v.name} key={v.name} disabled={!v.available}>
-            {v.name.replace("gpt", "GPT").replace("-turbo", "")}
-          </option>
-        ))}
+        {ALL_MODELS.map(
+          (v) =>
+            v.available && (
+              <option value={v.name} key={v.name} disabled={!v.available}>
+                {v.name.replace("gpt", "GPT").replace("-turbo", "")}
+              </option>
+            ),
+        )}
       </select>
     </div>
   );
