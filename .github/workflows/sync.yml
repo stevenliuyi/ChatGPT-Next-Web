@@ -31,6 +31,7 @@ jobs:
           git fetch upstream
           git checkout main
           MERGE_RESULT=$(git merge upstream/main)
+          echo $MERGE_RESULT
           if [[ $MERGE_RESULT == "" ]]; then
             exit 1
           elif [[ $MERGE_RESULT != *"Already up to date."* ]]; then
