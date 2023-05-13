@@ -31,6 +31,7 @@ jobs:
           git fetch upstream
           git checkout main
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/stevenliuyi/ChatGPT-Next-Web.git
+          git config merge.ours.driver true
           MERGE_RESULT=$(git merge upstream/main --no-edit)
           echo $MERGE_RESULT
           if [[ $MERGE_RESULT == "" ]]; then
