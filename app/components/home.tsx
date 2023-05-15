@@ -30,7 +30,7 @@ import { useAccessStore } from "../store";
 import { Modal, PasswordInput } from "./ui-lib";
 import { IconButton } from "./button";
 import Locale from "../locales";
-import { requestUsage } from "../requests";
+import { api } from "../client/api";
 
 export function Loading(props: { noLogo?: boolean }) {
   return (
@@ -151,7 +151,8 @@ export function SignInPage(props: {
   const checkAccesCode = () => {
     props.onUpdate();
     accessStore.updateCode(accessCode);
-    requestUsage()
+    api.llm
+      .usage()
       .then((res) => {
         if (!res?.used) {
           setAccessCode("");
@@ -193,7 +194,8 @@ export function SignInPage(props: {
 export function Home() {
   const [signedIn, setSignedIn] = useState<boolean | undefined>(undefined);
 
-  requestUsage()
+  api.llm
+    .usage()
     .then((res) => {
       if (res?.used) {
         setSignedIn(true);
