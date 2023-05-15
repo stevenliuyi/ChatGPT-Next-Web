@@ -25,7 +25,6 @@ import {
 } from "react-router-dom";
 import { SideBar } from "./sidebar";
 import { useAppConfig } from "../store/config";
-import { useMaskStore } from "../store/mask";
 
 import { useAccessStore } from "../store";
 import { Modal, PasswordInput } from "./ui-lib";
@@ -99,11 +98,23 @@ const useHasHydrated = () => {
   return hasHydrated;
 };
 
+const loadAsyncGoogleFont = () => {
+  const linkEl = document.createElement("link");
+  linkEl.rel = "stylesheet";
+  linkEl.href =
+    "/google-fonts/css2?family=Noto+Sans+SC:wght@300;400;700;900&display=swap";
+  document.head.appendChild(linkEl);
+};
+
 function Screen() {
   const config = useAppConfig();
   const location = useLocation();
   const isHome = location.pathname === Path.Home;
   const isMobileScreen = useMobileScreen();
+
+  useEffect(() => {
+    loadAsyncGoogleFont();
+  }, []);
 
   return (
     <div

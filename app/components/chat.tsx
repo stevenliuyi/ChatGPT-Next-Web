@@ -22,7 +22,7 @@ import BottomIcon from "../icons/bottom.svg";
 import StopIcon from "../icons/pause.svg";
 
 import {
-  Message,
+  ChatMessage,
   SubmitKey,
   useChatStore,
   BOT_HELLO,
@@ -45,7 +45,7 @@ import {
 
 import dynamic from "next/dynamic";
 
-import { ControllerPool } from "../requests";
+import { ChatControllerPool } from "../client/controller";
 import { Prompt, usePromptStore } from "../store/prompt";
 import Locale from "../locales";
 
@@ -65,7 +65,7 @@ const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
   loading: () => <LoadingIcon />,
 });
 
-function exportMessages(messages: Message[], topic: string) {
+function exportMessages(messages: ChatMessage[], topic: string) {
   const mdText =
     `# ${topic}\n\n` +
     messages
@@ -333,8 +333,8 @@ export function ChatActions(props: {
   }
 
   // stop all responses
-  const couldStop = ControllerPool.hasPending();
-  const stopAll = () => ControllerPool.stopAll();
+  const couldStop = ChatControllerPool.hasPending();
+  const stopAll = () => ChatControllerPool.stopAll();
 
   const chatStore = useChatStore();
   const [session, sessionIndex] = useChatStore((state) => [
@@ -422,7 +422,7 @@ export function ChatActions(props: {
 }
 
 export function Chat() {
-  type RenderMessage = Message & { preview?: boolean };
+  type RenderMessage = ChatMessage & { preview?: boolean };
 
   const chatStore = useChatStore();
   const [session, sessionIndex] = useChatStore((state) => [
@@ -515,7 +515,7 @@ export function Chat() {
 
   // stop response
   const onUserStop = (messageId: number) => {
-    ControllerPool.stop(sessionIndex, messageId);
+    ChatControllerPool.stop(sessionIndex, messageId);
   };
 
   // check if should send message
@@ -535,7 +535,7 @@ export function Chat() {
       e.preventDefault();
     }
   };
-  const onRightClick = (e: any, message: Message) => {
+  const onRightClick = (e: any, message: ChatMessage) => {
     // copy to clipboard
     if (selectOrCopy(e.currentTarget, message.content)) {
       e.preventDefault();
