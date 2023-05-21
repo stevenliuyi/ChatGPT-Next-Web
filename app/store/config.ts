@@ -70,11 +70,11 @@ export const ALL_MODELS = [
   },
   {
     name: "gpt-4-mobile",
-    available: ENABLE_GPT4,
+    available: false,
   },
   {
     name: "text-davinci-002-render-sha-mobile",
-    available: true,
+    available: false,
   },
   {
     name: "gpt-3.5-turbo",
