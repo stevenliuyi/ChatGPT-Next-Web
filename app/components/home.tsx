@@ -154,7 +154,7 @@ export function SignInPage(props: {
     api.llm
       .usage()
       .then((res) => {
-        if (!res?.used) {
+        if (!res?.total) {
           setAccessCode("");
         } else {
           props.onSuccess();
@@ -197,7 +197,7 @@ export function Home() {
   api.llm
     .usage()
     .then((res) => {
-      if (res?.used) {
+      if (res?.total) {
         setSignedIn(true);
       } else {
         setSignedIn(false);
