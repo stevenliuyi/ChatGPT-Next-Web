@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { StoreKey } from "../constant";
+import { getBuildConfig } from "../config/build";
 
 export enum SubmitKey {
   Enter = "Enter",
@@ -21,7 +22,7 @@ export const DEFAULT_CONFIG = {
   avatar: "1f603",
   fontSize: 14,
   theme: Theme.Auto as Theme,
-  tightBorder: false,
+  tightBorder: !getBuildConfig().isApp,
   sendPreviewBubble: true,
   sidebarWidth: 300,
 
@@ -61,6 +62,10 @@ export const ALL_MODELS = [
     available: false,
   },
   {
+    name: "gpt-4-0613",
+    available: ENABLE_GPT4,
+  },
+  {
     name: "gpt-4-32k",
     available: ENABLE_GPT4,
   },
@@ -69,12 +74,8 @@ export const ALL_MODELS = [
     available: false,
   },
   {
-    name: "gpt-4-mobile",
-    available: false,
-  },
-  {
-    name: "text-davinci-002-render-sha-mobile",
-    available: false,
+    name: "gpt-4-32k-0613",
+    available: ENABLE_GPT4,
   },
   {
     name: "gpt-3.5-turbo",
@@ -83,6 +84,18 @@ export const ALL_MODELS = [
   {
     name: "gpt-3.5-turbo-0301",
     available: false,
+  },
+  {
+    name: "gpt-3.5-turbo-0613",
+    available: true,
+  },
+  {
+    name: "gpt-3.5-turbo-16k",
+    available: true,
+  },
+  {
+    name: "gpt-3.5-turbo-16k-0613",
+    available: true,
   },
   {
     name: "qwen-v1", // 通义千问
@@ -124,7 +137,7 @@ export function limitNumber(
 export function limitModel(name: string) {
   return ALL_MODELS.some((m) => m.name === name && m.available)
     ? name
-    : ALL_MODELS[2].name;
+    : "gpt-3.5-turbo";
 }
 
 export const ModalConfigValidator = {
