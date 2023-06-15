@@ -55,7 +55,7 @@ const ENABLE_GPT4 = true;
 export const ALL_MODELS = [
   {
     name: "gpt-4",
-    available: ENABLE_GPT4,
+    available: false,
   },
   {
     name: "gpt-4-0314",
@@ -67,7 +67,7 @@ export const ALL_MODELS = [
   },
   {
     name: "gpt-4-32k",
-    available: ENABLE_GPT4,
+    available: false,
   },
   {
     name: "gpt-4-32k-0314",
@@ -79,7 +79,7 @@ export const ALL_MODELS = [
   },
   {
     name: "gpt-3.5-turbo",
-    available: true,
+    available: false,
   },
   {
     name: "gpt-3.5-turbo-0301",
@@ -91,7 +91,7 @@ export const ALL_MODELS = [
   },
   {
     name: "gpt-3.5-turbo-16k",
-    available: true,
+    available: false,
   },
   {
     name: "gpt-3.5-turbo-16k-0613",

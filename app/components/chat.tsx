@@ -481,7 +481,10 @@ export function ChatActions(props: {
             (v) =>
               v.available && (
                 <option value={v.name} key={v.name} disabled={!v.available}>
-                  {v.name.replace("gpt", "GPT").replace("-turbo", "")}
+                  {v.name
+                    .replace("gpt", "GPT")
+                    .replace("-turbo", "")
+                    .replace("-0613", "")}
                 </option>
               ),
           )}
