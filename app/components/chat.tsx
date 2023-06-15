@@ -416,27 +416,31 @@ export function ChatActions(props: {
         />
       )}
 
-      <ChatAction
-        onClick={nextTheme}
-        text={Locale.Chat.InputActions.Theme[theme]}
-        icon={
-          <>
-            {theme === Theme.Auto ? (
-              <AutoIcon />
-            ) : theme === Theme.Light ? (
-              <LightIcon />
-            ) : theme === Theme.Dark ? (
-              <DarkIcon />
-            ) : null}
-          </>
-        }
-      />
+      {false && (
+        <ChatAction
+          onClick={nextTheme}
+          text={Locale.Chat.InputActions.Theme[theme]}
+          icon={
+            <>
+              {theme === Theme.Auto ? (
+                <AutoIcon />
+              ) : theme === Theme.Light ? (
+                <LightIcon />
+              ) : theme === Theme.Dark ? (
+                <DarkIcon />
+              ) : null}
+            </>
+          }
+        />
+      )}
 
-      <ChatAction
-        onClick={props.showPromptHints}
-        text={Locale.Chat.InputActions.Prompt}
-        icon={<PromptIcon />}
-      />
+      {false && (
+        <ChatAction
+          onClick={props.showPromptHints}
+          text={Locale.Chat.InputActions.Prompt}
+          icon={<PromptIcon />}
+        />
+      )}
 
       <ChatAction
         onClick={() => {
@@ -461,26 +465,28 @@ export function ChatActions(props: {
         }}
       />
 
-      <select
-        className={`${chatStyle["chat-input-action"]} clickable`}
-        value={session.mask.modelConfig.model}
-        onChange={(e) => {
-          const mask = { ...session.mask };
-          mask.modelConfig.model = ModalConfigValidator.model(
-            e.currentTarget.value,
-          );
-          chatStore.updateCurrentSession((session) => (session.mask = mask));
-        }}
-      >
-        {ALL_MODELS.map(
-          (v) =>
-            v.available && (
-              <option value={v.name} key={v.name} disabled={!v.available}>
-                {v.name.replace("gpt", "GPT").replace("-turbo", "")}
-              </option>
-            ),
-        )}
-      </select>
+      <div className={`${chatStyle["chat-input-action"]} clickable`}>
+        <select
+          className={chatStyle["chat-model-selection"]}
+          value={session.mask.modelConfig.model}
+          onChange={(e) => {
+            const mask = { ...session.mask };
+            mask.modelConfig.model = ModalConfigValidator.model(
+              e.currentTarget.value,
+            );
+            chatStore.updateCurrentSession((session) => (session.mask = mask));
+          }}
+        >
+          {ALL_MODELS.map(
+            (v) =>
+              v.available && (
+                <option value={v.name} key={v.name} disabled={!v.available}>
+                  {v.name.replace("gpt", "GPT").replace("-turbo", "")}
+                </option>
+              ),
+          )}
+        </select>
+      </div>
     </div>
   );
 }
